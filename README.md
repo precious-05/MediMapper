@@ -77,7 +77,7 @@ The dashboard is served from the FastAPI backend and provides:
 ## Google Sheets Export
 
 <p align="center">
-  <img src="docs/images/google_sheets.jpg" alt="Google Sheets Export" width="100%"/>
+  <img src="docs/images/google_sheet.jpg" alt="Google Sheets Export" width="100%"/>
 </p>
 
 Every extraction auto-syncs to your connected Google Sheet with 20 structured columns:
