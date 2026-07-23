@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="docs/images/dashboard.jpg" alt="MediMapper Dashboard" width="100%"/>
+  <img src="docs/images/icon.png" alt="MediMapper Dashboard" width="60%"/>
   <br/>
   MediMapper
 </h1>
