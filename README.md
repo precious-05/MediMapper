@@ -283,6 +283,4 @@ Total combinations: **135 city-type pairs**
 
 ---
 
-## License
 
-This project is private and intended for internal business use.
