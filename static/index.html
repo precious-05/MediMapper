@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMapper - Smart Clinic Lead Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-container">
+        <div class="floating-shape shape-1"><i class="fa-solid fa-hospital-user"></i></div>
+        <div class="floating-shape shape-2"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="floating-shape shape-3"><i class="fa-solid fa-stethoscope"></i></div>
+        <div class="floating-shape shape-4"><i class="fa-solid fa-tooth"></i></div>
+        <div class="floating-shape shape-5"><i class="fa-solid fa-notes-medical"></i></div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>MediMapper</h1>
+                    <p>Smart Clinic Lead Generation & Enrichment Portal</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="btn-export-sheet" class="btn btn-primary btn-glow">
+                    <i class="fa-solid fa-file-excel btn-icon"></i>Sync to Google Sheet
+                </button>
+                <div class="sheet-indicator" id="sheet-status">
+                    <i class="fa-solid fa-circle-check text-success"></i> Connected
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon icon-blue">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="stat-details">
+                    <h3 id="stat-total-leads">0</h3>
+                    <p>Total Leads Collected</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-purple">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </div>
+                <div class="stat-details">
+                    <h3 id="stat-countries">0</h3>
+                    <p>Countries Covered</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-orange">
+                    <i class="fa-solid fa-star-of-life"></i>
+                </div>
+                <div class="stat-details">
+                    <h3 id="stat-high-priority">0</h3>
+                    <p>High Priority Leads</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon icon-green">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                </div>
+                <div class="stat-details">
+                    <h3 id="stat-enriched">0</h3>
+                    <p>Enriched (w/ Email/Web)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Body Grid -->
+        <div class="layout-grid">
+            <!-- Sidebar: Generator Panel -->
+            <aside class="sidebar-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-gears panel-header-icon"></i>Lead Generator</h2>
+                    </div>
+                    <form id="generator-form" class="generator-form">
+                        <div class="form-group">
+                            <label for="select-country"><i class="fa-solid fa-globe input-icon"></i>Country</label>
+                            <select id="select-country" required>
+                                <option value="" disabled selected>Select country</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="UAE">United Arab Emirates</option>
+                                <option value="Pakistan">Pakistan</option>
+                                <option value="Australia">Australia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="select-city"><i class="fa-solid fa-city input-icon"></i>City</label>
+                            <select id="select-city" required disabled>
+                                <option value="" disabled selected>Select city</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="select-type"><i class="fa-solid fa-stethoscope input-icon"></i>Clinic Type</label>
+                            <select id="select-type" required>
+                                <option value="" disabled selected>Select clinic type</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="btn-generate" class="btn btn-secondary btn-block">
+                            <i class="fa-solid fa-magnifying-glass-location btn-icon"></i>Start Extraction
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Automation Progress & Logs -->
+                <div class="panel-card log-panel">
+                    <div class="panel-header">
+                        <h2><i class="fa-solid fa-terminal panel-header-icon"></i>Execution Logs</h2>
+                        <button id="btn-clear-logs" class="btn-icon-only"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div class="log-output" id="log-output">
+                        <div class="log-line log-info"><i class="fa-solid fa-info-circle"></i> System initialized. Ready to map.</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content: Leads Database -->
+            <main class="main-panel">
+                <div class="panel-card table-card">
+                    <div class="panel-header table-header-container">
+                        <div class="table-title">
+                            <h2><i class="fa-solid fa-table-list panel-header-icon"></i>Leads Database</h2>
+                            <span class="badge badge-info" id="leads-count-badge">0 records</span>
+                        </div>
+                        <div class="table-actions">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                <input type="text" id="search-input" placeholder="Search clinics, websites, emails...">
+                            </div>
+                            <button id="btn-refresh" class="btn btn-light">
+                                <i class="fa-solid fa-rotate btn-icon"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filters Row -->
+                    <div class="filters-row">
+                        <div class="filter-item">
+                            <select id="filter-country">
+                                <option value="">All Countries</option>
+                                <option value="UK">UK</option>
+                                <option value="UAE">UAE</option>
+                                <option value="Pakistan">Pakistan</option>
+                                <option value="Australia">Australia</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <select id="filter-priority">
+                                <option value="">All Priorities</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <select id="filter-automation">
+                                <option value="">All Automations</option>
+                                <option value="Automated">Automated</option>
+                                <option value="Semi-Automated">Semi-Automated</option>
+                                <option value="Manual">Manual</option>
+                            </select>
+                        </div>
+                        <button id="btn-clear-filters" class="btn btn-link">
+                            <i class="fa-solid fa-filter-circle-xmark btn-icon"></i>Clear Filters
+                        </button>
+                    </div>
+
+                    <!-- Table Wrapper -->
+                    <div class="table-wrapper">
+                        <table class="data-table" id="leads-table">
+                            <thead>
+                                <tr>
+                                    <th>Clinic Name</th>
+                                    <th>Location</th>
+                                    <th>Rating</th>
+                                    <th>Contact Info</th>
+                                    <th>Appt. Method</th>
+                                    <th>Automation</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-tbody">
+                                <tr>
+                                    <td colspan="8" class="empty-state">
+                                        <div class="empty-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+                                        <h3>No Leads Found</h3>
+                                        <p>Select a city and clinic type on the left to extract leads or refresh the database.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Details Modal -->
+    <div class="modal" id="details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Clinic Details</h2>
+                <button class="close-modal" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom App Logic -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
